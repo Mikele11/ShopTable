@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>Shop</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
+	<script data-require="angular-ui-bootstrap@0.3.0" data-semver="0.3.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+    <!-- Optional theme -->
+	<link href="style/styles.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> 
+</head>
+<body>
+	<div class="header">
+		<h1>
+			Товары
+		</h1>
+	</div>
+	<div class="mainContent">
+		<div class="container" ng-controller="AppCtrl">
+			<div class="table">
+				<div id="titl">		  
+					<div><h4>Действие</h4></div>
+					<div>&nbsp;</div>
+				</div>
+				<div>
+					<div id="enterData">
+						<div>
+							<div id="contactdiv">
+								<form class="form" id="contact">
+									<h3>Форма товара</h3>
+									<hr/><br/>
+									<label>Название: </label>
+									<br/>
+									<input type="text" id="name" placeholder="Название товара" maxlength="25" ng-model="contact.name"/><br/>
+									<br/>
+									<label>Количество: </label>
+									<br/>
+									<input type="number" id="count" placeholder="Количество" min="0" ng-model="contact.count"/><br/>
+									<br/>
+									<label>Закупочная цена: </label>
+									<br/>
+									<input type="text" id="price" placeholder="Цена" maxlength="25" ng-model="contact.price"/><br/>
+									<br/>
+									<label>Категория товара:</label>
+									<br/>
+									<select ng-model="contact.category">
+										<option ng-repeat="x in myCategory" value="{{x.model}}">{{x.model}}</option>
+									</select>
+									<br/>
+									<br/>
+									<button id="add" class="btn btn-primary" ng-click="addContact()">Добавить</button>
+									<button id="upd" class="btn btn-primary" ng-click="update()" disabled="disabled">Оновить данные в базе</button>
+									<button id="cancel" class="btn btn-primary">Отменить</button>
+									<br/>
+								</form>
+							</div>
+						</div>
+						<div>
+							<div id="contactdivIndex">
+								<form class="form" id="contactIndex">
+									<h3>Индексация</h3>
+									<hr/><br/>
+									<label>Индексация в процентах: </label>
+									<br/>
+									<input type="text" id="priceIndex" placeholder="Индексация цены" maxlength="25" ng-model="priceIndex"/><br/>
+									<br/>
+									<br/>
+									<button id="addIndex" class="btn btn-primary" ng-click="updateIdex()">Добавить</button>
+									<button id="cancelIndex" class="btn btn-primary">Отменить</button>
+									<br/>
+								</form>
+							</div>
+						</div>
+						<div><button id="onclick" class="btn btn-primary" ng-click="deselect()">Добавить</button></div>
+						<div><button id="onclickIndex" class="btn btn-info">Индексация</button></div>
+						<div>
+							<div class="pagination pagination-centered" ng-show="shop.length">
+								<ul class="pagination-controle pagination">
+									<li>
+										<button type="button" class="btn btn-primary" ng-disabled="currentPage == 1"
+										ng-click="currentPage=currentPage-1"> &lt; PREV</button>
+									</li>
+									<li>
+										<span>Page {{currentPage}} of {{ page}}</span>
+									</li>
+									<li>
+										<button type="button" class="btn btn-primary"
+										ng-disabled="currentPage >= len/numPerPage"
+										ng-click="currentPage = currentPage+1">NEXT &gt;</button>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="myTable">
+						<div id="title2">
+							<div>№</div>
+							<div>
+								<a href="" ng-click="predicate = 'name'; reverse=!reverse">Название</a>
+							</div>
+							<div>
+								<a href="" ng-click="predicate = 'count'; reverse=!reverse">Количество</a>
+							</div>
+							<div>
+								<a href="" ng-click="predicate = 'price'; reverse=!reverse">Закупочная цена</a>
+							</div>
+							<div>
+								<a href="" ng-click="predicate = 'category'; reverse=!reverse">Категория товара</a>
+							</div>
+						</div>
+						<div class='rept' ng-repeat="contact in filteredTodos | orderBy:predicate:reverse">
+							<div>{{ $index + 1 }}</div>
+							<div>{{contact.name}}</div>
+							<div>{{contact.count}}</div>
+							<div>{{contact.price*((priceIndex/10)+1)}}</div>
+							<div>{{contact.category}}</div>
+							<div><button class="btn btn-danger" ng-click="remove(contact._id)">Удалить</button></div>
+							<div><button class="btn btn-warning redact" ng-click="edit(contact._id)">Начать редакт данных</button></div>
+						</div>					
+					</div>
+					<!-- начало пагинации -->
+				   <!-- конец пагинации --> 
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="controllers/controller.js"></script>
+<script src="scripts/myjQuery.js"></script>
+</body>
+</html>
